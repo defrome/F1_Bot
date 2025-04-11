@@ -4,7 +4,7 @@ import requests
 class Parser():
     def __init__(self) -> None:
         self.link = ''
-        
+
     
     def _get_html(self, link: str | None = None) -> BeautifulSoup:
         link = link or self.link
@@ -21,7 +21,7 @@ class Parser():
 
 
     def get_calendar(self):
-        soup = self._get_html()
+        soup = self._get_html('https://f1calendar.com/')
         ...
 
 
