@@ -20,9 +20,11 @@ class Parser():
 
 
         table = [] # объявление возвращаемой таблицы
+        hash_table = {} # словарь
 
+        counter = 0
         for row in html_table.find_all('tr'): # tr строка
-
+            
             row_data = []
             row_spans = []
 
@@ -31,18 +33,23 @@ class Parser():
                 cell_data, cell_rowspan = extract_cell_data(cell)
                 row_data.extend(cell_data)
                 row_spans.extend([cell_rowspan] * len(cell_data))
+
+            if counter == 0:
+                counter += 1 
+                continue
             
-            for i, span in enumerate(row_spans):
-                if span > 1:
-                    row_spans[i] -= 1
-                    if len(table) > 0:
-                        row_data.insert(i, table[-1][i])
+            if counter % 6 == 1:
+                hash_table[row_data[1]] = list()
+            
+
+            hash_table[list(hash_table.keys())[-1]].append(row_data[1:])
 
             # добавление в таблицу данных
             table.append(row_data[1:])
+            
+            counter += 1
         
-        # первый элемент таблицы это заголовок, он не нужен
-        return table[1:]
+        return hash_table
 
 
 
@@ -74,7 +81,7 @@ class Parser():
 
         calendar = self._parse_table(html_table) # отправляет в парсер таблицу начиная с <table> заканчивая </table>
 
-        return [calendar[i:i+6] for i in range(0, len(calendar), 6)] # возвращает список из списков по 6 элементов
+        return calendar # возвращает словарь
 
 
 
@@ -84,6 +91,9 @@ class Parser():
 
 if __name__ == '__main__':
     obj = Parser()
-    for i in obj.get_calendar():
-        print(i)
-        print()
+    
+    hash = obj.get_calendar()
+    
+    for key in hash.keys():
+        print(key, hash[key])
+        print('\n')
