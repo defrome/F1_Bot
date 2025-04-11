@@ -13,6 +13,8 @@ from dotenv import load_dotenv
 from Config.config import F1_TEAMS, F1_2025_CALENDAR, F1_TABLE_2025
 from Keyboards.UserKeyboards import UserKeyboards, UserKeyboards
 
+from Parse_web import f1-parse
+
 sys.path.append(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 )
