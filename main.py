@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from Config.config import F1_TEAMS, F1_2025_CALENDAR, F1_TABLE_2025
 from Keyboards.UserKeyboards import UserKeyboards, UserKeyboards
 
-from Parse_web import f1-parse
+from Parse_web.calen_parse import Parser
 
 sys.path.append(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -97,26 +97,52 @@ async def driver_selected_callback(callback: types.CallbackQuery):
     )
     await callback.answer()
 
+@dp.callback_query(lambda c: c.data.startswith("race_"))
+async def race_selected_callback(callback: types.CallbackQuery):
+    race = callback.data.split("_")[1]
+
+    race_info = Parser.get_calendar()[race]
+
+    message_text = f'{race}\n'
+
+    for part in race_info:
+        message_text += f'{part[0].lstrip(f'race')} {part[1]} {part[2]}\n'
+
+    await callback.message.edit_text(
+        message_text,
+        reply_markup = keyboard_builder.get_back_keyboard()
+    )
+    await callback.answer()
 
 @dp.callback_query(lambda c: c.data == "race_calendar")
 async def race_calendar_callback(callback: types.CallbackQuery):
     try:
-        calendar_text = "🗓 Календарь гонок 2025:\n\n"
+        # calendar_text = "🗓 Календарь гонок 2025:\n\n"
 
-        sorted_races = sorted(F1_2025_CALENDAR.items(), key=lambda x: x[0])
 
-        for race_num, race_data in sorted_races:
-            calendar_text += (
-                f"🏁 <b>Этап {race_num}: {race_data['name']}</b>\n"
-                f"📍 {race_data['circuit']}\n"
-                f"📅 {race_data['date']}\n\n"
-            )
+        # sorted_races = sorted(F1_2025_CALENDAR.items(), key=lambda x: x[0])
+
+        # for race_num, race_data in sorted_races:
+        #     calendar_text += (
+        #         f"🏁 <b>Этап {race_num}: {race_data['name']}</b>\n"
+        #         f"📍 {race_data['circuit']}\n"
+        #         f"📅 {race_data['date']}\n\n"
+        #     )
 
         await callback.message.edit_text(
-            calendar_text,
-            parse_mode="HTML",
-            reply_markup = keyboard_builder.get_back_keyboard()
+            "🗓 Календарь гонок 2025:",
+            reply_markup = keyboard_builder.get_calendar_keyboard()
         )
+
+        await callback.answer()
+    
+
+        # await callback.message.edit_text(
+        #     calendar_text,
+        #     parse_mode="HTML",
+        #     reply_markup = keyboard_builder.get_back_keyboard()
+        # )
+
     except Exception as e:
         print(f"Ошибка при отображении календаря: {e}")
         await callback.message.edit_text(

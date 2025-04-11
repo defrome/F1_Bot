@@ -4,6 +4,9 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from Config.config import F1_TEAMS
 from Keyboards.Consts.InlineConsts import InlineConstructor
 
+from Parse_web.calen_parse import Parser
+
+
 
 class UserKeyboards():
     
@@ -47,3 +50,18 @@ class UserKeyboards():
             buttons=main_buttons,
             schema=[1, 2, 2],
         )
+    
+    def get_calendar_keyboard(self):
+        parser = Parser()
+        builder = InlineKeyboardBuilder()
+
+        calendar = parser.get_calendar()
+
+        keys = list(calendar.keys())
+
+        for key in keys:
+            builder.append({'text' : key, 'callback_data' : f'race_{key}'})
+        builder.button(text="🔙 Назад", callback_data="main_menu")
+
+        return builder.as_markup()
+        

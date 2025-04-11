@@ -17,6 +17,7 @@ class Parser():
             rowspan = int(cell.get('rowspan', 1)) # строки
 
             return [cell.text] * colspan, rowspan # возвращает элемент таблицы из строк и столбцов
+        
 
 
         table = [] # объявление возвращаемой таблицы
@@ -50,6 +51,7 @@ class Parser():
             counter += 1
         
         return hash_table
+    
 
 
 
@@ -66,12 +68,6 @@ class Parser():
 
 
 
-    def get_team_status(self):
-        soup = self._get_html()
-        ...
-
-
-
     def get_calendar(self) -> list:
         # функция получает календарь и возвращает список из элементов календаря
 
@@ -85,6 +81,9 @@ class Parser():
 
 
 
+    def get_team_status(self):
+        soup = self._get_html()
+        ...
 
     def __del__(self) -> None:
         ...
