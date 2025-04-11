@@ -10,17 +10,6 @@ class InlineConstructor:
             schema: List[int],
             back_button: Optional[Dict[str, Union[str, Dict]]] = None
     ) -> InlineKeyboardMarkup:
-        """
-        Создает InlineKeyboardMarkup из переданных кнопок и схемы.
-
-        :param buttons: Список словарей с параметрами кнопок.
-            Пример: [{"text": "Текст кнопки", "callback_data": "callback"}]
-        :param schema: Схема распределения кнопок по рядам.
-            Пример: [2, 1] - два ряда: в первом 2 кнопки, во втором 1.
-        :param back_button: Параметры кнопки "Назад" (добавляется в конец).
-            Пример: {"text": "Назад", "callback_data": "back"}
-        :return: Объект InlineKeyboardMarkup
-        """
         keyboard = []
 
         # Добавляем основные кнопки согласно схеме

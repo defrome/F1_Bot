@@ -1,9 +1,0 @@
-version: '3.8'
-
-services:
-  f1-parser:
-    build: .
-    container_name: f1-parser
-    volumes:
-      - ./data:/app/data
-    restart: unless-stopped
