@@ -17,7 +17,7 @@ class UserKeyboards():
 
         return builder.as_markup(self)
 
-    def get_drivers_keyboard(team: str) -> InlineKeyboardMarkup:
+    def get_drivers_keyboard(self, team: str) -> InlineKeyboardMarkup:
         """Клавиатура с гонщиками конкретной команды"""
         builder = InlineKeyboardBuilder()
         for driver in F1_TEAMS[team]:
