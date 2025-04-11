@@ -106,7 +106,7 @@ async def race_selected_callback(callback: types.CallbackQuery):
     message_text = f'{race}\n'
 
     for part in race_info:
-        message_text += f'{part[0].lstrip(f'race')} {part[1]} {part[2]}\n'
+        message_text += f'{part[0].lstrip(f'{race}')} {part[1]} {part[2]}\n'
 
     await callback.message.edit_text(
         message_text,
