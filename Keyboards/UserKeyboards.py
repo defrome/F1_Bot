@@ -11,6 +11,7 @@ def get_teams_keyboard() -> InlineKeyboardMarkup:
         builder.button(text=team, callback_data=f"team_{team}")
     builder.button(text="🔙 Назад", callback_data="main_menu")
     builder.adjust(2)  # 2 кнопки в ряд
+
     return builder.as_markup()
 
 def get_drivers_keyboard(team: str) -> InlineKeyboardMarkup:
@@ -20,6 +21,7 @@ def get_drivers_keyboard(team: str) -> InlineKeyboardMarkup:
         builder.button(text=driver, callback_data=f"driver_{driver}")
     builder.button(text="🔙 К командам", callback_data="teams_menu")
     builder.adjust(1)  # 1 кнопка в ряд
+
     return builder.as_markup()
 
 def get_back_keyboard() -> InlineKeyboardMarkup:
@@ -27,6 +29,7 @@ def get_back_keyboard() -> InlineKeyboardMarkup:
     keyboard = [
         [InlineKeyboardButton(text="🔙 Назад", callback_data="main_menu")]
     ]
+    
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def get_main_keyboard() -> InlineKeyboardMarkup:
@@ -36,6 +39,7 @@ def get_main_keyboard() -> InlineKeyboardMarkup:
     {"text": "Таблица", "callback_data": "standings"},
     {"text": "Последняя гонка", "callback_data": "last_race"},
     ]
+    
     return InlineConstructor.create_kb(
         buttons=main_buttons,
         schema=[1, 2, 2],
