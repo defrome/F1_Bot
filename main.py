@@ -123,9 +123,11 @@ async def race_selected_callback(callback: types.CallbackQuery):
 
     message_text = f'<b>{race}</b>\n'
 
-
+    print(race_info)
     for part in race_info[1:]:
-        message_text += f'Этап: <b>{part[0].lstrip(f'{race} ')}</b>\nДата и время: {part[1]} {part[2]}\n\n'
+        stage = part[0].lstrip(f'{race} ') or 'Grand Prix'
+
+        message_text += f'Этап: <b>{stage}</b>\nДата и время: {part[1]} {part[2]}\n\n'
 
     await callback.message.edit_text(
         message_text,
