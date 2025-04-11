@@ -11,8 +11,10 @@ from Parse_web.calen_parse import Parser
 class UserKeyboards():
     
     def get_teams_keyboard(self) -> InlineKeyboardMarkup:
-        """Клавиатура со списком команд"""
+        # Клавиатура со списком команд
+
         builder = InlineKeyboardBuilder()
+
         for team in F1_TEAMS.keys():
             builder.button(text=team, callback_data=f"team_{team}")
         builder.button(text="🔙 Назад", callback_data="main_menu")
@@ -21,8 +23,10 @@ class UserKeyboards():
         return builder.as_markup()
 
     def get_drivers_keyboard(self, team: str) -> InlineKeyboardMarkup:
-        """Клавиатура с гонщиками конкретной команды"""
+        # Клавиатура с гонщиками конкретной команды
+
         builder = InlineKeyboardBuilder()
+
         for driver in F1_TEAMS[team]:
             builder.button(text=driver, callback_data=f"driver_{driver}")
         builder.button(text="🔙 К командам", callback_data="teams_menu")
@@ -31,7 +35,8 @@ class UserKeyboards():
         return builder.as_markup()
 
     def get_back_keyboard(self) -> InlineKeyboardMarkup:
-        """Создает клавиатуру с кнопкой 'Назад'"""
+        # Создает клавиатуру с кнопкой 'Назад'
+
         keyboard = [
             [InlineKeyboardButton(text="🔙 Назад", callback_data="main_menu")]
         ]
@@ -39,6 +44,7 @@ class UserKeyboards():
         return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
     def get_main_keyboard(self) -> InlineKeyboardMarkup:
+
         main_buttons = [
         {"text": "Календарь гонок", "callback_data": "race_calendar"},
         {"text": "Команды", "callback_data": "teams"},
@@ -52,6 +58,7 @@ class UserKeyboards():
         )
     
     def get_calendar_keyboard(self):
+        
         parser = Parser()
         builder = InlineKeyboardBuilder()
 
