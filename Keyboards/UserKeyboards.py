@@ -4,13 +4,6 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from Config.config import F1_TEAMS
 from Keyboards.Consts.InlineConsts import InlineConstructor
 
-main_buttons = [
-    {"text": "Календарь гонок", "callback_data": "race_calendar"},
-    {"text": "Команды", "callback_data": "teams"},
-    {"text": "Таблица", "callback_data": "standings"},
-    {"text": "Последняя гонка", "callback_data": "last_race"},
-]
-
 def get_teams_keyboard() -> InlineKeyboardMarkup:
     """Клавиатура со списком команд"""
     builder = InlineKeyboardBuilder()
@@ -37,6 +30,12 @@ def get_back_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
 def get_main_keyboard() -> InlineKeyboardMarkup:
+    main_buttons = [
+    {"text": "Календарь гонок", "callback_data": "race_calendar"},
+    {"text": "Команды", "callback_data": "teams"},
+    {"text": "Таблица", "callback_data": "standings"},
+    {"text": "Последняя гонка", "callback_data": "last_race"},
+    ]
     return InlineConstructor.create_kb(
         buttons=main_buttons,
         schema=[1, 2, 2],
