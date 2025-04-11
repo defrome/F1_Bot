@@ -34,9 +34,11 @@ if not TOKEN:
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
+
 # Хендлеры команд
 @dp.message(Command("start"))
 async def start_command(message: Message) -> None:
+
     await message.answer(
         "🏎 Добро пожаловать в бота Formula 1!\n"
         "Выберите интересующий вас раздел:",
@@ -45,50 +47,63 @@ async def start_command(message: Message) -> None:
 
 @dp.message(Command("menu"))
 async def menu_command(message: Message) -> None:
+
     await message.answer(
         "🏎 Главное меню:",
         reply_markup = keyboard_builder.get_main_keyboard()
     )
 
+
 # Основные callback-обработчики
 @dp.callback_query(lambda c: c.data == "main_menu")
 async def main_menu_callback(callback: types.CallbackQuery):
+
     await callback.message.edit_text(
         "🏎 Главное меню:",
         reply_markup = keyboard_builder.get_main_keyboard()
     )
     await callback.answer()
 
+
 @dp.callback_query(lambda c: c.data == "teams")
 async def teams_callback(callback: types.CallbackQuery):
+
     await callback.message.edit_text(
         "🏁 Выберите команду:",
         reply_markup = keyboard_builder.get_teams_keyboard()
     )
     await callback.answer()
 
+
 @dp.callback_query(lambda c: c.data == "teams_menu")
 async def back_to_teams_callback(callback: types.CallbackQuery):
+
     await callback.message.edit_text(
         "🏁 Выберите команду:",
         reply_markup = keyboard_builder.get_teams_keyboard()
     )
     await callback.answer()
+
 
 # Обработчики для команд и гонщиков
 @dp.callback_query(lambda c: c.data.startswith("team_"))
 async def team_selected_callback(callback: types.CallbackQuery):
+
     team = callback.data.split("_")[1]
+
     await callback.message.edit_text(
         f"🏎 Состав команды {team}:",
         reply_markup = keyboard_builder.get_drivers_keyboard(team)
     )
     await callback.answer()
 
+
 @dp.callback_query(lambda c: c.data.startswith("driver_"))
 async def driver_selected_callback(callback: types.CallbackQuery):
+
     driver = callback.data.split("_")[1]
     # Здесь можно добавить API-запрос для получения информации о гонщике
+
     await callback.message.edit_text(
         f"👤 Гонщик: {driver}\n\n"
         f"Команда: {next(team for team, drivers in F1_TEAMS.items() if driver in drivers)}\n"
@@ -97,8 +112,10 @@ async def driver_selected_callback(callback: types.CallbackQuery):
     )
     await callback.answer()
 
+
 @dp.callback_query(lambda c: c.data.startswith("race_name_"))
 async def race_selected_callback(callback: types.CallbackQuery):
+
     race = callback.data.split("_")[-1]
 
     obj = Parser()
@@ -116,11 +133,11 @@ async def race_selected_callback(callback: types.CallbackQuery):
     )
     await callback.answer()
 
+
 @dp.callback_query(lambda c: c.data == "race_calendar")
 async def race_calendar_callback(callback: types.CallbackQuery):
-    try:
-        # calendar_text = "🗓 Календарь гонок 2025:\n\n"
 
+    try:
 
         # sorted_races = sorted(F1_2025_CALENDAR.items(), key=lambda x: x[0])
 
@@ -132,18 +149,12 @@ async def race_calendar_callback(callback: types.CallbackQuery):
         #     )
 
         await callback.message.edit_text(
-            "🗓 Календарь гонок 2025:",
+            "🗓 <b>Календарь гонок 2025:</b>",
+            parse_mode="HTML",
             reply_markup = keyboard_builder.get_calendar_keyboard()
         )
 
         await callback.answer()
-    
-
-        # await callback.message.edit_text(
-        #     calendar_text,
-        #     parse_mode="HTML",
-        #     reply_markup = keyboard_builder.get_back_keyboard()
-        # )
 
     except Exception as e:
         print(f"Ошибка при отображении календаря: {e}")
@@ -157,6 +168,7 @@ async def race_calendar_callback(callback: types.CallbackQuery):
 
 @dp.callback_query(lambda c: c.data == "standings")
 async def standings_callback(callback: types.CallbackQuery):
+
     try:
         standings_text = (
             "🏆 <b>Турнирная таблица 2025</b>\n"
@@ -198,8 +210,10 @@ async def standings_callback(callback: types.CallbackQuery):
     finally:
         await callback.answer()
 
+
 @dp.callback_query(lambda c: c.data == "last_race")
 async def last_race_callback(callback: types.CallbackQuery):
+    
     await callback.message.edit_text(
         "🚩 Последняя гонка:",
         reply_markup = keyboard_builder.get_back_keyboard()
