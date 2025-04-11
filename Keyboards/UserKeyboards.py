@@ -60,7 +60,6 @@ class UserKeyboards():
     def get_calendar_keyboard(self):
 
         parser = Parser()
-        builder = InlineKeyboardBuilder()
 
         calendar = parser.get_calendar()
 
