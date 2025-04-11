@@ -7,15 +7,17 @@ class Parser():
 
 
 
-    def _parse_table(self, html_table):
+    def _parse_table(self, html_table) -> list:
 
 
-        def extract_cell_data(cell):
+        def extract_cell_data(cell) -> list:
             colspan = int(cell.get('colspan', 1))
             rowspan = int(cell.get('rowspan', 1))
+
             return [cell.text] * colspan, rowspan
         
         
+
 
         table = []
 
@@ -58,14 +60,14 @@ class Parser():
 
 
 
-    def get_calendar(self):
+    def get_calendar(self) -> list:
         soup = self._get_html('https://f1calendar.com/')
 
         html_table = soup.find('table')
 
         calendar = self._parse_table(html_table)
 
-        return calendar
+        return [calendar[i:i+6] for i in range(0, len(calendar), 6)]
 
 
 
@@ -75,4 +77,6 @@ class Parser():
 
 if __name__ == '__main__':
     obj = Parser()
-    print(obj.get_calendar())
+    for i in obj.get_calendar():
+        print(i)
+        print()
