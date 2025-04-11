@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from Config.config import F1_TEAMS, F1_2025_CALENDAR, F1_TABLE_2025
 from Keyboards.UserKeyboards import UserKeyboards, UserKeyboards
 
-from Parse_web.calen_parse import Parser
+from Parse_web.site_parse import Parser
 
 sys.path.append(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -213,7 +213,7 @@ async def standings_callback(callback: types.CallbackQuery):
 
 @dp.callback_query(lambda c: c.data == "last_race")
 async def last_race_callback(callback: types.CallbackQuery):
-    
+
     await callback.message.edit_text(
         "🚩 Последняя гонка:",
         reply_markup = keyboard_builder.get_back_keyboard()

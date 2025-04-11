@@ -4,7 +4,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from Config.config import F1_TEAMS
 from Keyboards.Consts.InlineConsts import InlineConstructor
 
-from Parse_web.calen_parse import Parser
+from Parse_web.site_parse import Parser
 
 
 
