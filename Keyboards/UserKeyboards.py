@@ -7,7 +7,7 @@ from Keyboards.Consts.InlineConsts import InlineConstructor
 
 class UserKeyboards():
     
-    def get_teams_keyboard(self) -> InlineKeyboardMarkup:
+    def get_teams_keyboard() -> InlineKeyboardMarkup:
         """Клавиатура со списком команд"""
         builder = InlineKeyboardBuilder()
         for team in F1_TEAMS.keys():
@@ -15,7 +15,7 @@ class UserKeyboards():
         builder.button(text="🔙 Назад", callback_data="main_menu")
         builder.adjust(2)  # 2 кнопки в ряд
 
-        return builder.as_markup(self)
+        return builder.as_markup()
 
     def get_drivers_keyboard(self, team: str) -> InlineKeyboardMarkup:
         """Клавиатура с гонщиками конкретной команды"""
@@ -27,7 +27,7 @@ class UserKeyboards():
 
         return builder.as_markup()
 
-    def get_back_keyboard(self) -> InlineKeyboardMarkup:
+    def get_back_keyboard() -> InlineKeyboardMarkup:
         """Создает клавиатуру с кнопкой 'Назад'"""
         keyboard = [
             [InlineKeyboardButton(text="🔙 Назад", callback_data="main_menu")]
@@ -35,7 +35,7 @@ class UserKeyboards():
         
         return InlineKeyboardMarkup(inline_keyboard=keyboard)
 
-    def get_main_keyboard(self) -> InlineKeyboardMarkup:
+    def get_main_keyboard() -> InlineKeyboardMarkup:
         main_buttons = [
         {"text": "Календарь гонок", "callback_data": "race_calendar"},
         {"text": "Команды", "callback_data": "teams"},
