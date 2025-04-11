@@ -60,8 +60,7 @@ class UserKeyboards():
         keys = list(calendar.keys())
 
         for key in keys:
-            builder.append({'text' : key, 'callback_data' : f'race_{key}'})
+            builder.button(text = f'{key}', callback_data = f'race_name_{key}')
         builder.button(text="🔙 Назад", callback_data="main_menu")
 
         return builder.as_markup()
-        

@@ -97,15 +97,17 @@ async def driver_selected_callback(callback: types.CallbackQuery):
     )
     await callback.answer()
 
-@dp.callback_query(lambda c: c.data.startswith("race_"))
+@dp.callback_query(lambda c: c.data.startswith("race_name_"))
 async def race_selected_callback(callback: types.CallbackQuery):
-    race = callback.data.split("_")[1]
+    race = callback.data.split("_")[-1]
 
-    race_info = Parser.get_calendar()[race]
+    obj = Parser()
+    race_info = obj.get_calendar()[race]
 
     message_text = f'{race}\n'
 
-    for part in race_info:
+
+    for part in race_info[1:]:
         message_text += f'{part[0].lstrip(f'{race} ')} {part[1]} {part[2]}\n'
 
     await callback.message.edit_text(
