@@ -58,7 +58,7 @@ class UserKeyboards():
         )
     
     def get_calendar_keyboard(self):
-        
+
         parser = Parser()
         builder = InlineKeyboardBuilder()
 
@@ -66,8 +66,10 @@ class UserKeyboards():
 
         keys = list(calendar.keys())
 
-        for key in keys:
-            builder.button(text = f'{key}', callback_data = f'race_name_{key}')
-        builder.button(text="🔙 Назад", callback_data="main_menu")
+        keyboard = []
 
-        return builder.as_markup()
+        for key in keys:
+            keyboard.append([{'text' : f'{key}', 'callback_data' : f'race_name_{key}'}])
+        keyboard.append([{'text' : "🔙 Назад", 'callback_data' : "main_menu"}])
+
+        return InlineKeyboardMarkup(inline_keyboard=keyboard)
