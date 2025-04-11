@@ -11,8 +11,7 @@ import os
 from dotenv import load_dotenv
 
 from Config.config import F1_TEAMS, F1_2025_CALENDAR, F1_TABLE_2025
-from Keyboards.UserKeyboards import main_buttons, get_main_keyboard, get_back_keyboard, get_teams_keyboard, \
-    get_drivers_keyboard
+from Keyboards.UserKeyboards import UserKeyboards as Build_Inline
 
 sys.path.append(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -37,14 +36,14 @@ async def start_command(message: Message) -> None:
     await message.answer(
         "🏎 Добро пожаловать в бота Formula 1!\n"
         "Выберите интересующий вас раздел:",
-        reply_markup=get_main_keyboard()
+        reply_markup = Build_Inline.get_main_keyboard()
     )
 
 @dp.message(Command("menu"))
 async def menu_command(message: Message) -> None:
     await message.answer(
         "🏎 Главное меню:",
-        reply_markup=get_main_keyboard()
+        reply_markup = Build_Inline.get_main_keyboard()
     )
 
 # Основные callback-обработчики
@@ -52,7 +51,7 @@ async def menu_command(message: Message) -> None:
 async def main_menu_callback(callback: types.CallbackQuery):
     await callback.message.edit_text(
         "🏎 Главное меню:",
-        reply_markup=get_main_keyboard()
+        reply_markup = Build_Inline.get_main_keyboard()
     )
     await callback.answer()
 
@@ -60,7 +59,7 @@ async def main_menu_callback(callback: types.CallbackQuery):
 async def teams_callback(callback: types.CallbackQuery):
     await callback.message.edit_text(
         "🏁 Выберите команду:",
-        reply_markup=get_teams_keyboard()
+        reply_markup = Build_Inline.get_teams_keyboard()
     )
     await callback.answer()
 
@@ -68,7 +67,7 @@ async def teams_callback(callback: types.CallbackQuery):
 async def back_to_teams_callback(callback: types.CallbackQuery):
     await callback.message.edit_text(
         "🏁 Выберите команду:",
-        reply_markup=get_teams_keyboard()
+        reply_markup = Build_Inline.get_teams_keyboard()
     )
     await callback.answer()
 
@@ -78,7 +77,7 @@ async def team_selected_callback(callback: types.CallbackQuery):
     team = callback.data.split("_")[1]
     await callback.message.edit_text(
         f"🏎 Состав команды {team}:",
-        reply_markup=get_drivers_keyboard(team)
+        reply_markup = Build_Inline.get_drivers_keyboard(team)
     )
     await callback.answer()
 
@@ -90,7 +89,7 @@ async def driver_selected_callback(callback: types.CallbackQuery):
         f"👤 Гонщик: {driver}\n\n"
         f"Команда: {next(team for team, drivers in F1_TEAMS.items() if driver in drivers)}\n"
         "Дополнительная информация будет здесь...",
-        reply_markup=get_back_keyboard()
+        reply_markup = Build_Inline.get_back_keyboard()
     )
     await callback.answer()
 
@@ -112,13 +111,13 @@ async def race_calendar_callback(callback: types.CallbackQuery):
         await callback.message.edit_text(
             calendar_text,
             parse_mode="HTML",
-            reply_markup=get_back_keyboard()
+            reply_markup = Build_Inline.get_back_keyboard()
         )
     except Exception as e:
         print(f"Ошибка при отображении календаря: {e}")
         await callback.message.edit_text(
             "❌ Произошла ошибка при загрузке календаря гонок",
-            reply_markup=get_back_keyboard()
+            reply_markup = Build_Inline.get_back_keyboard()
         )
     finally:
         await callback.answer()
@@ -156,13 +155,13 @@ async def standings_callback(callback: types.CallbackQuery):
         await callback.message.edit_text(
             standings_text,
             parse_mode="HTML",
-            reply_markup=get_back_keyboard()
+            reply_markup = Build_Inline.get_back_keyboard()
         )
     except Exception as e:
         print(f"Ошибка при отображении таблицы: {e}")
         await callback.message.edit_text(
             "❌ Произошла ошибка при загрузке турнирной таблицы",
-            reply_markup=get_back_keyboard()
+            reply_markup = Build_Inline.get_back_keyboard()
         )
     finally:
         await callback.answer()
@@ -171,7 +170,7 @@ async def standings_callback(callback: types.CallbackQuery):
 async def last_race_callback(callback: types.CallbackQuery):
     await callback.message.edit_text(
         "🚩 Последняя гонка:",
-        reply_markup=get_back_keyboard()
+        reply_markup = Build_Inline.get_back_keyboard()
     )
     await callback.answer()
 
