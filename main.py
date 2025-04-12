@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 from Config.config import F1_TEAMS, F1_2025_CALENDAR, F1_TABLE_2025
 from Keyboards.UserKeyboards import UserKeyboards, UserKeyboards
 
-from Parse_web.site_parse import Parser
+from Parse_web.calen_parse import Parser
 
 sys.path.append(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -116,21 +116,19 @@ async def driver_selected_callback(callback: types.CallbackQuery):
 @dp.callback_query(lambda c: c.data.startswith("race_name_"))
 async def race_selected_callback(callback: types.CallbackQuery):
 
-    race = callback.data.lstrip('race_name_')
+    race = callback.data.split("_")[-1]
 
     obj = Parser()
     race_info = obj.get_calendar()[race]
 
-    message_text = f'<b>{race}</b>\n'
+    message_text = f'{race}\n'
+
 
     for part in race_info[1:]:
-        stage = part[0].lstrip(f'{race} ') or 'Grand Prix'
-
-        message_text += f'Этап: <b>{stage}</b>\nДата и время: {part[1]} {part[2]}\n\n'
+        message_text += f'{part[0].lstrip(f'{race} ')} {part[1]} {part[2]}\n'
 
     await callback.message.edit_text(
         message_text,
-        parse_mode='HTML',
         reply_markup = keyboard_builder.get_back_keyboard()
     )
     await callback.answer()
@@ -215,7 +213,7 @@ async def standings_callback(callback: types.CallbackQuery):
 
 @dp.callback_query(lambda c: c.data == "last_race")
 async def last_race_callback(callback: types.CallbackQuery):
-
+    
     await callback.message.edit_text(
         "🚩 Последняя гонка:",
         reply_markup = keyboard_builder.get_back_keyboard()
