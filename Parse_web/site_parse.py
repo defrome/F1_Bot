@@ -7,7 +7,7 @@ class Parser():
 
 
 
-    def _parse_table(self, html_table) -> list:
+    def _parse_table(self, html_table) -> dict:
         # обработка таблицы html
 
         def extract_cell_data(cell) -> list:
