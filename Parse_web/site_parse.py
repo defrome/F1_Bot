@@ -68,7 +68,7 @@ class Parser():
 
 
 
-    def get_calendar(self) -> list:
+    def get_calendar(self) -> dict:
         # функция получает календарь и возвращает список из элементов календаря
 
         soup = self._get_html('https://f1calendar.com/') # _get_html возвращает код страницы и тут же создаёт объект для парсера
